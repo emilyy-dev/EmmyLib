@@ -41,7 +41,7 @@ public class StringSetting extends Setting<String> {
 
   @Override
   public @NotNull String get(final @NotNull ConfigurationAdapter adapter) {
-    final String value = Objects.requireNonNull(adapter, "adapter").getString(super.key());
-    return value != null ? value : super.fallback();
+    final String value = Objects.requireNonNull(adapter, "adapter").getString(key());
+    return value != null ? value : fallback();
   }
 }

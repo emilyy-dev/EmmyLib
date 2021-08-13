@@ -41,7 +41,7 @@ public class BooleanSetting extends Setting<Boolean> {
 
   @Override
   public @NotNull Boolean get(final @NotNull ConfigurationAdapter adapter) {
-    final Boolean value = Objects.requireNonNull(adapter, "adapter").getBoolean(super.key());
-    return value != null ? value : super.fallback();
+    final Boolean value = Objects.requireNonNull(adapter, "adapter").getBoolean(key());
+    return value != null ? value : fallback();
   }
 }

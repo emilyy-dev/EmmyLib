@@ -41,7 +41,7 @@ public class ListSetting<T extends Serializable> extends Setting<List<T>> {
 
   @Override
   public @NotNull List<T> get(final @NotNull ConfigurationAdapter adapter) {
-    final List<T> list = Objects.requireNonNull(adapter, "adapter").getList(super.key());
-    return list != null ? list : super.fallback();
+    final List<T> list = Objects.requireNonNull(adapter, "adapter").getList(key());
+    return list != null ? list : fallback();
   }
 }

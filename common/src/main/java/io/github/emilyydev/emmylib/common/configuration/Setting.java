@@ -72,7 +72,7 @@ public abstract class Setting<T> {
 
   @Override
   public String toString() {
-    return this.getClass().getSimpleName()
+    return getClass().getSimpleName()
            + "["
            + "key='" + this.key + '\''
            + ", fallback=" + this.fallback

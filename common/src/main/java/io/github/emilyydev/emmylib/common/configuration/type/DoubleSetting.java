@@ -40,7 +40,7 @@ public class DoubleSetting extends Setting<Double> {
   }
 
   public @NotNull Double get(final @NotNull ConfigurationAdapter adapter) {
-    final Double value = Objects.requireNonNull(adapter, "adapter").getDouble(super.key());
-    return value != null ? value : super.fallback();
+    final Double value = Objects.requireNonNull(adapter, "adapter").getDouble(key());
+    return value != null ? value : fallback();
   }
 }

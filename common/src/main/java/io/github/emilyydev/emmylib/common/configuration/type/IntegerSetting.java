@@ -40,7 +40,7 @@ public class IntegerSetting extends Setting<Integer> {
   }
 
   public @NotNull Integer get(final @NotNull ConfigurationAdapter adapter) {
-    final Integer value = Objects.requireNonNull(adapter, "adapter").getInt(super.key());
-    return value != null ? value : super.fallback();
+    final Integer value = Objects.requireNonNull(adapter, "adapter").getInt(key());
+    return value != null ? value : fallback();
   }
 }

@@ -60,9 +60,9 @@ public class YamlConfigurationAdapter extends ConfigurationAdapter {
   @Override
   protected void reload0() throws IOException {
     final Map<String, Object> map;
-    try (final var reader = Files.newBufferedReader(super.configFile)) {
+    try (final var reader = Files.newBufferedReader(this.configFile)) {
       map = YAML.get().load(reader);
     }
-    super.nonDeserialized.putAll(map != null ? map : Map.of());
+    this.nonDeserialized.putAll(map != null ? map : Map.of());
   }
 }

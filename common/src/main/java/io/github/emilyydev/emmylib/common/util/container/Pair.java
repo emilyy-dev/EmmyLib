@@ -70,12 +70,8 @@ public final class Pair<T, U> {
 
   @Override
   public boolean equals(final Object other) {
-    if (this == other) {
-      return true;
-    }
-    if (other == null || this.getClass() != other.getClass()) {
-      return false;
-    }
+    if (this == other) { return true; }
+    if (other == null || this.getClass() != other.getClass()) { return false; }
     final Pair<?, ?> that = (Pair<?, ?>) other;
     return this.first.equals(that.first) && this.second.equals(that.second);
   }

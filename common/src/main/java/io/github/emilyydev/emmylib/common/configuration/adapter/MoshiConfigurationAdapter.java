@@ -59,6 +59,6 @@ public class MoshiConfigurationAdapter extends ConfigurationAdapter {
   @Override
   protected void reload0() throws IOException {
     final Map<String, Object> map = MAP_JSON_ADAPTER.fromJson(Files.readString(this.configFile));
-    super.nonDeserialized.putAll(map != null ? map : Map.of());
+    this.nonDeserialized.putAll(map != null ? map : Map.of());
   }
 }
