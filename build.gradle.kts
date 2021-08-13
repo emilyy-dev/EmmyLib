@@ -46,7 +46,7 @@ subprojects {
 
         jar {
             metaInf {
-                from(rootProject.file("LICENSE.txt")) { into("") }
+                from(rootProject.file("LICENSE.txt")) { into("io.github.emilyydev/emmylib") }
             }
         }
 
