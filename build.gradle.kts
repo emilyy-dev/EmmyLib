@@ -1,5 +1,3 @@
-defaultTasks("licenseMain", "build")
-
 plugins {
     `java-library`
     `maven-publish`
@@ -39,6 +37,8 @@ subprojects {
     }
 
     tasks {
+        build { dependsOn(licenseMain) }
+
         compileJava {
             options.encoding = Charsets.UTF_8.name()
             options.release.set(11)
