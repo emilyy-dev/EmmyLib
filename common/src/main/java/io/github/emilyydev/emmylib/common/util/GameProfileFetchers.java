@@ -32,9 +32,10 @@ import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.util.UUIDTypeAdapter;
 import io.github.emilyydev.emmylib.common.util.function.Throwing;
 
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -42,10 +43,11 @@ public interface GameProfileFetchers {
 
   static CompletableFuture<JsonObject> fetchProfileJson(final UUID uuid) {
     return CompletableFuture.supplyAsync(Throwing.Supplier.sneaky(() -> {
-      try (final var inputStream = profileUrl(uuid).openStream();
-           final var reader = new InputStreamReader(inputStream)) {
-        return GsonProvider.simple().fromJson(reader, JsonObject.class);
-      }
+      final var httpRequest = HttpRequest.newBuilder(profileUrl(uuid).toURI())
+                                         .header("User-Agent", GameProfileFetchers.class.getCanonicalName())
+                                         .GET().build();
+      final var gsonBodyHandler = MoreBodyHandlers.gson(GsonProvider.simple(), JsonObject.class);
+      return HttpClient.newHttpClient().send(httpRequest, gsonBodyHandler).body();
     }));
   }
 
