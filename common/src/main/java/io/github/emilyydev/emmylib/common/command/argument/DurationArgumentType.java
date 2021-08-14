@@ -177,7 +177,7 @@ public class DurationArgumentType implements ArgumentType<Duration> {
 
   @Override
   public <S> CompletableFuture<Suggestions> listSuggestions(final CommandContext<S> context, final SuggestionsBuilder builder) {
-    final String current = builder.getRemainingLowerCase();
+    final String current = builder.getRemaining().toLowerCase(Locale.ROOT);
     if (StringReader.isQuotedStringStart(current.charAt(0))) {
       for (int i = 1; i < current.toCharArray().length; ++i) {
         if (StringReader.isQuotedStringStart(current.charAt(i))) {

@@ -29,73 +29,76 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType;
+import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import io.github.emilyydev.emmylib.common.message.ComponentMessage;
 import io.github.emilyydev.emmylib.common.util.Translations;
+import io.github.emilyydev.emmylib.common.util.container.Vector2;
 
 import java.util.Collection;
-import java.util.Locale;
-import java.util.Map;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
 
-import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toUnmodifiableMap;
 import static net.kyori.adventure.text.Component.text;
 import static net.kyori.adventure.text.Component.translatable;
 
-public class EnumArgumentType<E extends Enum<E>> implements ArgumentType<E> {
+public class Vector2ArgumentType implements ArgumentType<Vector2> {
 
-  private static final Dynamic2CommandExceptionType UNKNOWN_ENUM_CONSTANT = new Dynamic2CommandExceptionType((value, clazz) -> {
-    return ComponentMessage.of(translatable(Translations.translatableKeyUnknownEnumConstant(),
-                                            text(String.valueOf(value)), text(String.valueOf(clazz))));
+  private static final DynamicCommandExceptionType INVALID_FORMAT_EXCEPTION = new DynamicCommandExceptionType(read -> {
+    return ComponentMessage.of(translatable(Translations.translatableKeyInvalidVector2Format(), text(String.valueOf(read))));
   });
 
-  public static <E extends Enum<E>> E value(final CommandContext<?> context, final String name, final Class<E> clazz) {
-    return context.getArgument(name, clazz);
+  private static final List<String> EXAMPLES = List.of("0.0 0.0", "1 2", "-1.65 1589");
+
+  private static final Pattern UNIT_PATTERN = Pattern.compile("-?\\d+(?:\\.\\d+)?");
+  private static final Pattern VEC2_PATTERN = Pattern.compile(UNIT_PATTERN.pattern() + ' '
+                                                              + UNIT_PATTERN.pattern());
+
+  public static Vector2 getVector2(final CommandContext<?> context, final String name) {
+    return context.getArgument(name, Vector2.class);
   }
 
-  public static <E extends Enum<E>> EnumArgumentType<E> of(final Class<E> clazz) {
-    return new EnumArgumentType<>(clazz);
+  public static Vector2ArgumentType vec2Arg() {
+    return new Vector2ArgumentType();
   }
 
-  private final Class<E> clazz;
-  private final Map<String, E> nameValueMap;
-
-  private EnumArgumentType(final Class<E> clazz) {
-    this.clazz = clazz;
-
-    final E[] values = clazz.getEnumConstants();
-    this.nameValueMap = stream(values).collect(toUnmodifiableMap(e -> e.name().toLowerCase(), e -> e));
-  }
+  private Vector2ArgumentType() { }
 
   @Override
-  public E parse(final StringReader reader) throws CommandSyntaxException {
-    final String name = reader.readUnquotedString().toLowerCase(Locale.ROOT);
-    final E value = this.nameValueMap.get(name);
-    if (value != null) {
-      return value;
+  public Vector2 parse(final StringReader reader) throws CommandSyntaxException {
+    final StringBuilder argumentBuilder = new StringBuilder();
+
+    argumentBuilder.append(reader.readUnquotedString());
+    argumentBuilder.append(' ');
+    reader.skipWhitespace();
+
+    argumentBuilder.append(reader.readUnquotedString());
+
+    final String argument = argumentBuilder.toString();
+    if (VEC2_PATTERN.matcher(argument).matches()) {
+      final StringReader argumentReader = new StringReader(argument);
+
+      final double x = argumentReader.readDouble();
+      argumentReader.skipWhitespace();
+
+      final double y = argumentReader.readDouble();
+
+      return Vector2.at(x, y);
     }
 
-    throw UNKNOWN_ENUM_CONSTANT.createWithContext(reader, name, this.clazz.getSimpleName());
+    throw INVALID_FORMAT_EXCEPTION.createWithContext(reader, argument);
   }
 
   @Override
   public <S> CompletableFuture<Suggestions> listSuggestions(final CommandContext<S> context, final SuggestionsBuilder builder) {
-    final String current = builder.getRemaining().toLowerCase(Locale.ROOT);
-    for (final String name : this.nameValueMap.keySet()) {
-      if (name.startsWith(current)) {
-        builder.suggest(name);
-      }
-    }
-
-    return builder.buildFuture();
+    // TODO this, suggest a trailing whitespace until complete
+    return Suggestions.empty();
   }
 
   @Override
   public Collection<String> getExamples() {
-    return this.nameValueMap.keySet().stream().collect(Collectors.toUnmodifiableList());
+    return EXAMPLES;
   }
 }

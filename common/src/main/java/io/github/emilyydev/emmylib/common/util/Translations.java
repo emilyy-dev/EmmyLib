@@ -76,7 +76,17 @@ public final class Translations {
   // io.github.emilyydev.emmylib.translation.command.argument.exception.UnknownEnumConstant
   private static final String TRANSLATABLE_KEY_UNKNOWN_ENUM_CONSTANT =
       register(SEPARATOR.join(TRANSLATION_PREFIX, "command", "argument", "exception", "UnknownEnumConstant"),
-               pattern("Unknown value name {0} for enum class {1}"));
+               pattern("Unknown value name {0} for enum type {1}"));
+
+  // io.github.emilyydev.emmylib.translation.command.argument.exception.InvalidVector2
+  private static final String TRANSLATABLE_KEY_INVALID_VECTOR_2_FORMAT =
+      register(SEPARATOR.join(TRANSLATION_PREFIX, "command", "argument", "exception", "InvalidVector2"),
+               pattern("Invalid input format for 2-axis vector: must be ''x y'', got ''{0}''"));
+
+  // io.github.emilyydev.emmylib.translation.command.argument.exception.InvalidVector3
+  private static final String TRANSLATABLE_KEY_INVALID_VECTOR_3_FORMAT =
+      register(SEPARATOR.join(TRANSLATION_PREFIX, "command", "argument", "exception", "InvalidVector3"),
+               pattern("Invalid input format for 3-axis vector: must be ''x y z'', got ''{0}''"));
 
   /* ************************************** */
   /* ************************************** */
@@ -114,6 +124,14 @@ public final class Translations {
 
   public static String translatableKeyUnknownEnumConstant() {
     return TRANSLATABLE_KEY_UNKNOWN_ENUM_CONSTANT;
+  }
+
+  public static String translatableKeyInvalidVector2Format() {
+    return TRANSLATABLE_KEY_INVALID_VECTOR_2_FORMAT;
+  }
+
+  public static String translatableKeyInvalidVector3Format() {
+    return TRANSLATABLE_KEY_INVALID_VECTOR_3_FORMAT;
   }
 
   private Translations() {
