@@ -47,21 +47,30 @@ dependencies {
     testRuntimeOnly("org.slf4j", "slf4j-simple", slf4jVersion)
 }
 
-tasks.javadoc {
-    val standardOptions = options as StandardJavadocDocletOptions
-    options.encoding = Charsets.UTF_8.name()
+tasks {
+    jar {
+        manifest {
+            attributes["Automatic-Module-Name"] = "io.github.emilyydev.emmylib"
+            attributes["Specification-Title"] = "io.github.emilyydev.emmylib"
+        }
+    }
+
+    javadoc {
+        val standardOptions = options as StandardJavadocDocletOptions
+        options.encoding = Charsets.UTF_8.name()
 //    standardOptions.addBooleanOption("-no-module-directories", true)
-    listOf(
-        "https://docs.oracle.com/en/java/javase/11/docs/api/",
-        "https://square.github.io/moshi/1.x/moshi/",
-        "https://jd.adventure.kyori.net/api/$adventureVersion/",
-        "https://jd.adventure.kyori.net/text-serializer-gson/$adventureVersion/",
-        "https://jd.adventure.kyori.net/text-serializer-plain/$adventureVersion/",
-        "https://javadoc.io/doc/com.google.code.gson/gson/$gsonVersion/",
-        "https://javadoc.io/doc/org.yaml/snakeyaml/$snakeyamlVersion/",
-        "https://javadoc.io/doc/com.google.guava/guava/$guavaVersion/",
-        "https://javadoc.io/doc/org.slf4j/slf4j-api/$slf4jVersion/",
-        "https://javadoc.io/doc/org.apache.logging.log4j/log4j-api/$log4jVersion/",
-        "https://javadoc.io/doc/org.jetbrains/annotations/$annotationsVersion/"
-    ).forEach { standardOptions.links?.add(it) }
+        listOf(
+            "https://docs.oracle.com/en/java/javase/11/docs/api/",
+            "https://square.github.io/moshi/1.x/moshi/",
+            "https://jd.adventure.kyori.net/api/$adventureVersion/",
+            "https://jd.adventure.kyori.net/text-serializer-gson/$adventureVersion/",
+            "https://jd.adventure.kyori.net/text-serializer-plain/$adventureVersion/",
+            "https://javadoc.io/doc/com.google.code.gson/gson/$gsonVersion/",
+            "https://javadoc.io/doc/org.yaml/snakeyaml/$snakeyamlVersion/",
+            "https://javadoc.io/doc/com.google.guava/guava/$guavaVersion/",
+            "https://javadoc.io/doc/org.slf4j/slf4j-api/$slf4jVersion/",
+            "https://javadoc.io/doc/org.apache.logging.log4j/log4j-api/$log4jVersion/",
+            "https://javadoc.io/doc/org.jetbrains/annotations/$annotationsVersion/"
+        ).forEach { standardOptions.links?.add(it) }
+    }
 }

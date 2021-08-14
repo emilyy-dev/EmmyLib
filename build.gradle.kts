@@ -48,6 +48,12 @@ subprojects {
             metaInf {
                 from(rootProject.file("LICENSE.txt")) { into("io.github.emilyydev/emmylib") }
             }
+            manifest {
+                attributes["Automatic-Module-Name"] = "io.github.emilyydev.${project.name.replace('-', '.')}"
+                attributes["Specification-Title"] = "io.github.emilyydev.${project.name.replace('-', '.')}"
+                attributes["Specification-Version"] = project.version
+                attributes["Specification-Vendor"] = "emilyy-dev"
+            }
         }
 
         test {
