@@ -32,8 +32,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import io.github.emilyydev.emmylib.common.message.ComponentMessage;
-import io.github.emilyydev.emmylib.common.util.Translations;
+import io.github.emilyydev.emmylib.common.locale.ComponentMessage;
+import io.github.emilyydev.emmylib.common.locale.Translations;
 import io.github.emilyydev.emmylib.common.util.container.Vector3;
 
 import java.util.Collection;

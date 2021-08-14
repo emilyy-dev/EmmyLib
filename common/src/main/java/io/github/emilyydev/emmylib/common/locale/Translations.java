@@ -23,7 +23,7 @@
 // SOFTWARE.
 //
 
-package io.github.emilyydev.emmylib.common.util;
+package io.github.emilyydev.emmylib.common.locale;
 
 import com.google.common.base.Joiner;
 import net.kyori.adventure.key.Key;

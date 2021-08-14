@@ -23,7 +23,7 @@
 // SOFTWARE.
 //
 
-package io.github.emilyydev.emmylib.common.message;
+package io.github.emilyydev.emmylib.common.locale;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.ComponentLike;

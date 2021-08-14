@@ -23,7 +23,7 @@
 // SOFTWARE.
 //
 
-package io.github.emilyydev.emmylib.common.message;
+package io.github.emilyydev.emmylib.common.locale;
 
 import com.google.gson.JsonElement;
 import com.mojang.brigadier.Message;
